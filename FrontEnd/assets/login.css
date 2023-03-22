@@ -1,0 +1,56 @@
+main{ 
+    text-align: center;
+}
+h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+}
+
+label {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+button {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    background-color: #1D6154;
+    color: white;
+    border-radius: 60px;
+    padding-top: 10px;
+    padding-bottom: 9px;
+    width: 180px;
+}
+
+a {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-decoration-line: underline;
+    color: #3D3D3D;
+}
+
+.input { 
+    width: 50%;
+    margin: auto;
+}
+
+.input-mail { 
+    display: inline-block;
+    width: 100%;
+}
+.input-mail input{ 
+    width: 100%;
+    height: 50px;
+}
+
+.input-password { 
+    width: 100%;
+}
