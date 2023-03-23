@@ -31,22 +31,25 @@
 			<h1>Log In</h1>
 		</div>
 		<div class="container">
-			<div class="input-group">
-				<label for="username" class="label">E-mail</label>
-				<input type="text" name="mail" id="username" class="input">
-			</div>
-			<div class="input-group">
-				<label for="password" class="label">Mot de passe</label>
-				<input type="password" name="password" id="password" class="input">
-			</div>
-
-			<div class="text-center button">
-				<button id="connect">Se connecter</button>
-			</div>
+			<form id="login-form">
+				<div class="input-group">
+					<label for="username" class="label">E-mail</label>
+					<input type="text" name="email" id="username" class="input">
+				</div>
+				<div class="input-group">
+					<label for="password" class="label">Mot de passe</label>
+					<input type="password" name="password" id="password" class="input">
+				</div>
+				<div class="text-center button">
+					<button id="connect">Se connecter</button>
+				</div>
+			</form>
 			<div class="text-center forget-password">
 				<a href="#" class="forgetpassword">Mot de passe oublié</a>
 			</div>
+			<div id="error-message" class="error-message"></div>
 		</div>
+		
 
 	</main>
 

@@ -63,6 +63,12 @@ nav a {
     color: #1D6154;
 }
 
+.error-message {
+    color: red;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
 
 .input {
     appearance: none;
@@ -87,5 +93,4 @@ nav a {
 
 .forget-password {
     padding-top: 25px;
-
 }
