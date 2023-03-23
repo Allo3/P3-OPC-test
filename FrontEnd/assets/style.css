@@ -42,6 +42,15 @@ blockquote, q {
 	quotes: none;
 }
 
+a {
+	text-decoration: none;
+	color: black;
+
+}
+a:hover {
+		color: #B1663C;
+
+}
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';

@@ -19,34 +19,39 @@
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 		<nav>
 			<ul>
-				<li>projets</li>
-				<li>contact</li>
-				<li>login</li>
+				<li><a href="index.html">projets</a></li>
+				<li><a href="index.html#contact">contact</a></li>
+				<li><a class="login" href="login.html">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
 	</header>
 	<main>
-		<h1>Log In</h1>
-		<div class="input">
-			<div class="input-mail">
-				<label for="e-mail">E-mail</label>
-				<input type="text" name="e-mail" id="e-mail">
-			</div>
-			<div class="input-password">
-				<label for="password">Mot de passe</label>
-				<input type="password" name="password" id="password">
-			</div>
+		<div class="text-center">
+			<h1>Log In</h1>
 		</div>
-		<div class="links">
-		<button id="connect">Se connecter</button>
-		<a href="#" class="forgetpassword">Mot de passe oublié</a>
+		<div class="container">
+			<div class="input-group">
+				<label for="username" class="label">E-mail</label>
+				<input type="text" name="mail" id="username" class="input">
+			</div>
+			<div class="input-group">
+				<label for="password" class="label">Mot de passe</label>
+				<input type="password" name="password" id="password" class="input">
+			</div>
+
+			<div class="text-center button">
+				<button id="connect">Se connecter</button>
+			</div>
+			<div class="text-center forget-password">
+				<a href="#" class="forgetpassword">Mot de passe oublié</a>
+			</div>
 		</div>
 
 	</main>
 
 	<footer>
-		<script type="module" src="projets.js"></script>
+		<script type="module" src="login.js"></script>
 		<nav>
 			<ul>
 				<li>Mentions Légales</li>
