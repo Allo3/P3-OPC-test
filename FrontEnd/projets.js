@@ -106,9 +106,10 @@ if (sessionStorage.userId && sessionStorage.token !== null) {
     modalClose();
     modalCloseOutside();
 
+    logout();
+
 };
 
-logout();
 
 
 

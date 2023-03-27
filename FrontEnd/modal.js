@@ -4,30 +4,49 @@ const modal = document.getElementById("modalProjets");
 const modalBouton = document.getElementById("modifier2");
 const span = document.getElementsByClassName("close")[0];
 
+let modalFooter = document.querySelector(".modal-footer");
+let ajouterPhoto;
+
 export function modalOpen() {
     let modal;
     let modalBouton;
-
+    refreshModalButton();
     modal = document.getElementById("modalProjets");
     modalBouton = document.getElementById("modifier2");
     modalBouton.onclick = function () {
         modal.style.display = "block";
         let modalBody = document.querySelector(".modal-body");
+        let modalForm = document.querySelector(".img-form")
         let imgModal;
+        let editerModal;
         reponse.forEach((projet) => {
+            modalForm = document.createElement("post");
             imgModal = document.createElement("img");
             imgModal.src = projet.imageUrl;
-            modalBody.appendChild(imgModal);
+            editerModal = document.createElement("button");
+            editerModal.innerText = "éditer";
+
+            modalBody.appendChild(modalForm);
+            modalForm.appendChild(imgModal);
+            modalForm.appendChild(editerModal);
+
             imgModal.style.width = "78px";
             imgModal.style.height = "104px"
-            modalBody.style.display = "flex";
-            modalBody.style.flexWrap = "wrap";
-            modalBody.style.width = "60%";
-            modalBody.style.margin = "auto";
-            modalBody.style.justifyContent = "space-evenly";
+
+            modalBody.style.display = "grid";
+            modalBody.style.gridTemplateColumns = "repeat(5, 1fr)";
+            modalBody.style.gridTemplateRows = "repeat(5, 1fr)";
+            modalBody.style.gridGap = "10px 10px";
+            modalBody.style.width = "430px";
+            modalBody.style.height = "450px";
+            modalBody.style.margin = "46px auto";
+            modalBody.style.borderBottom = "1px solid #B3B3B3";
         });
+
+        let deleteGallery = document.createElement("a");
+        deleteGallery.innerText = "Supprimer la galerie";
+        modalFooter.appendChild(deleteGallery);
     }
-    console.log(modal);
 }
 
 export function modalClose() {
@@ -54,4 +73,16 @@ function removeModalImg() {
     while (listModal.children.length > 0) {
         listModal.removeChild(listModal.firstElementChild);
     }
+}
+
+function refreshModalButton() {
+    deleteModalButton();
+    ajouterPhoto = document.createElement("button");
+    ajouterPhoto.innerText = "Ajouter une photo";
+    modalFooter.appendChild(ajouterPhoto);
+}
+
+function deleteModalButton() {
+    const buttonModal = document.querySelector(".modal-footer");
+    buttonModal;
 }
