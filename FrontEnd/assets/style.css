@@ -45,12 +45,14 @@ blockquote, q {
 a {
 	text-decoration: none;
 	color: black;
-
+	cursor: pointer;
 }
+
 a:hover {
-		color: #B1663C;
+	color: #B1663C;
 
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
@@ -70,10 +72,45 @@ body {
 	font-size: 14px;
 }
 
-header {
+.edit-admin {
+	display: none;
+	visibility: hidden;
+	justify-content: center;
+	align-items: center;
+	background-color: black;
+	color: white;
+	height: 60px;
+	width: auto;
+}
+
+.edit-admin p {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+}
+
+.edit-admin button {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	background: white;
+	border-radius: 60px;
+	margin-left: 20px;
+	padding-top: 11px;
+	padding-bottom: 11px;
+	padding-left: 23px;
+	padding-right: 23px;
+	cursor: pointer;
+}
+
+
+
+.intro {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 section {
@@ -140,9 +177,10 @@ li:hover {
 	padding-bottom: 9px;
 }
 
-.filtres button:hover { 
+.filtres button:hover {
 	color: white;
 	background-color: #1D6154;
+	cursor: pointer;
 }
 
 #introduction {
@@ -151,13 +189,32 @@ li:hover {
 }
 
 #introduction figure {
-	flex: 1
+	flex: 1;
+	margin-bottom: 10px;
 }
 
 #introduction img {
 	display: block;
 	margin: auto;
 	width: 80%;
+}
+
+#introduction button {
+	border: none;
+	background-color: transparent;
+	display: block;
+	margin-left: 60px;
+	margin-top: 10px;
+}
+
+#introduction button:hover {
+	color: #B1663C;
+	cursor: pointer;
+
+}
+
+#introduction i {
+	font-size: 14.87px;
 }
 
 #introduction article {
@@ -173,9 +230,33 @@ li:hover {
 }
 
 #portfolio h2 {
-	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin-bottom: 1em;
 }
+
+#projets-title button {
+	border: none;
+	background-color: transparent;
+	margin-left: 30px;
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+#projets-title button:hover {
+	color: #B1663C;
+	cursor: pointer;
+
+}
+
+#projets-title i {
+	font-size: 14.87px;
+}
+
 
 #gallery {
 	width: 100%;
@@ -245,3 +326,63 @@ footer nav ul {
 }
 
 
+
+
+
+/* The Modal (background) */
+.modal {
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	z-index: 1;
+	/* Sit on top */
+	padding-top: 100px;
+	/* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
+	background-color: rgb(0, 0, 0);
+	/* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+	/* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 630px;
+	height: 731px;
+}
+
+.modal-header {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 26px;
+	line-height: 30px;
+	text-align: center;
+}
+
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
