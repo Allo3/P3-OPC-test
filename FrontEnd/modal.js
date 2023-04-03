@@ -80,9 +80,24 @@ function firstModal() {
 
             editerModal = document.createElement("p");
             editerModal.innerText = "éditer";
-
             deleteModal = document.createElement("i");
+            deleteModal.setAttribute("class", "delete-modal");
             deleteModal.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+            let tokenAdmin = sessionStorage.getItem("token");
+            deleteModal.onclick = function (e) {
+                e.preventDefault();
+                fetch(`http://localhost:5678/api/works/${projet.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${tokenAdmin}`
+                    }
+                })
+                console.log("token", sessionStorage.token);
+                console.log("token", tokenAdmin);
+                console.log("ID projet", projet.id);
+                console.log(window.sessionStorage.token);
+
+            }
 
             moveModal = document.createElement('i');
             moveModal.innerHTML = `<i class="fa-solid fa-arrows-up-down-left-right"></i>`;
@@ -136,6 +151,7 @@ function firstModal() {
             moveModal.style.background = "black";
             moveModal.style.border = "4px solid black";
         });
+
     }
 
 }
@@ -143,7 +159,7 @@ function firstModal() {
 function secondModal() {
 
     let backArrow = document.getElementById("back");
-    ajouterPhoto.addEventListener("click", function () {
+    ajouterPhoto.addEventListener("click", function (projet) {
 
         let modalImgInput;
         let modal2Body;
@@ -214,6 +230,7 @@ function secondModal() {
 
         imgTitle = document.createElement("input");
         imgTitle.setAttribute("name", "titre");
+        imgTitle.setAttribute("id", "titre-img");
 
         imgTitleInput.appendChild(imgTitleLabel)
         imgTitleInput.appendChild(imgTitle);
@@ -222,6 +239,7 @@ function secondModal() {
         let imgCategorieLabel
         let imgCategorie;
         let imgCategorieList;
+
 
         imgCategorieInput = document.createElement("div");
         imgCategorieInput.setAttribute("id", "image-categorie");
@@ -232,6 +250,7 @@ function secondModal() {
         imgCategorieLabel.innerText = "Catégorie"
 
         imgCategorie = document.createElement("select");
+        imgCategorie.setAttribute("id", "testCate");
 
 
         imgCategorie.setAttribute("name", "categorie");
@@ -239,6 +258,9 @@ function secondModal() {
         categorieResponse.forEach((categorie) => {
             console.log("categorie", categorie);
             imgCategorieList = document.createElement("option");
+            imgCategorieList.setAttribute("class", "test-cate");
+            imgCategorieList.setAttribute("value", `${categorie.id}`);
+            imgCategorieList.setAttribute("id", `${categorie.id}`);
             imgCategorieList.innerHTML = `${categorie.name}`
             imgCategorie.appendChild(imgCategorieList);
         })
@@ -257,11 +279,18 @@ function secondModal() {
         let modalImgValiderButton = document.createElement("button");
         modalImgValiderButton.setAttribute("id", "valider-button")
         modalImgValiderButton.innerText = "Valider";
+   
+
+        modalImgValiderButton.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            newWork();
+        })
 
         modal2Footer.appendChild(modalImgValiderButton)
-        modalImgValiderButton.addEventListener("click", function (){
-            console.log("test");
-        })
+
+
+
 
 
     })
@@ -280,3 +309,31 @@ function createDefaultOption(imgCategorie) {
     imgCategorie.appendChild(imgCategorieList);
 }
 
+function newWork(e) { 
+    let tok = sessionStorage.getItem("token");
+
+    let testTitle = document.getElementById("titre-img").value;
+    let testImg = document.getElementById("test").files[0];
+    let testCategory = document.getElementById("testCate").value;
+
+    console.log("title", testTitle);
+    console.log("cate", testCategory);
+    console.log("img", testImg);
+    
+    const formData = new FormData();
+    formData.append("image", testImg);
+    formData.append("title", testTitle);
+    formData.append("category", testCategory);
+
+    console.log("formdata", formData);
+
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${tok}`,
+        },
+        body: formData
+
+    })
+}

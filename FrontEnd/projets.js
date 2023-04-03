@@ -58,6 +58,8 @@ function removeProjects() {
 displayProjects(projets);
 
 function logout() {
+    console.log("token", sessionStorage.token);
+    console.log(window.sessionStorage.token);
     const logoutBouton = document.getElementById("login");
     logoutBouton.addEventListener("click", (event) => {
         event.preventDefault();

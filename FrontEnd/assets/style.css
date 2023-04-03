@@ -401,6 +401,9 @@ footer nav ul {
 	height: 731px;
 }
 
+.delete-modal i { 
+	cursor: pointer;
+}
 .modal-header {
 	font-family: 'Work Sans';
 	font-style: normal;
