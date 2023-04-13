@@ -1,11 +1,15 @@
-const reponse = await fetch("http://localhost:5678/api/works").then(reponse => reponse.json());
-const categorieResponse = await fetch("http://localhost:5678/api/categories").then(reponse => reponse.json());
+import {displayProjects, removeProjects} from "./projets.js";
+
+const response = await fetch("http://localhost:5678/api/works").then(response => response.json());
+const categoriesResponse = await fetch("http://localhost:5678/api/categories").then(response => response.json());
 const modal = document.getElementById("modalProjets");
 const modal2 = document.getElementById("modalAjouterPhoto");
 const span = document.getElementsByClassName("close")[0];
 const span2 = document.getElementsByClassName("close2")[0];
 let modalHeader = document.querySelector(".modal-header");
 let modalFooter = document.querySelector(".modal-footer");
+
+
 let ajouterPhoto;
 let deleteGallery;
 
@@ -17,7 +21,6 @@ export function modalOpen() {
 
 export function modalClose() {
     span.onclick = function () {
-        removeModalImg();
         modal.style.display = "none";
 
     }
@@ -30,24 +33,17 @@ export function modalClose() {
 
 export function modalCloseOutside() {
     window.onclick = function (event) {
-        if (event.target == modal) {
-            removeModalImg();
+        if (event.target === modal) {
             modal.style.display = "none";
-        } else if (event.target == modalAjouterPhoto) {
+        } else if (event.target === modal2) {
             modal2.style.display = "none";
         }
     }
 }
 
-function removeModalImg() {
-    const listModal = document.querySelector(".modal-body");
-    while (listModal.children.length > 0) {
-        listModal.removeChild(listModal.firstElementChild);
-    }
-
-}
 
 function refreshModalButtons() {
+    modalFooter.innerHTML = ""
     ajouterPhoto = document.createElement("button");
     ajouterPhoto.innerText = "Ajouter une photo";
     modalFooter.appendChild(ajouterPhoto);
@@ -56,48 +52,32 @@ function refreshModalButtons() {
     modalFooter.appendChild(deleteGallery);
 }
 
-function firstModal() {
-    let modal;
-    let modalBouton;
-    refreshModalButtons();
-    modal = document.getElementById("modalProjets");
-    modalBouton = document.getElementById("modifier2");
-    modalBouton.onclick = function () {
-        modal.style.display = "block";
-        let modalBody = document.querySelector(".modal-body");
-        let modalForm = document.querySelector(".img-form")
-        let imgModal;
-        let editerModal;
-        let deleteModal;
-        let moveModal;
-        modalBody.innerHTML = "";
 
-        reponse.forEach((projet) => {
+function createModal() {
+    modal.style.display = "block";
+
+    let modalBody = document.querySelector(".modal-body");
+    let modalForm = document.querySelector(".img-form");
+    let imgModal;
+    let editModal;
+    let deleteModal;
+    let moveModal;
+
+    modalBody.innerHTML = ""
+
+    response.forEach((projet) => {
             modalForm = document.createElement("post");
+            modalForm.setAttribute("data-id", projet.id);
 
             imgModal = document.createElement("img");
             imgModal.src = projet.imageUrl;
 
-            editerModal = document.createElement("p");
-            editerModal.innerText = "éditer";
+            editModal = document.createElement("p");
+            editModal.innerText = "éditer";
             deleteModal = document.createElement("i");
             deleteModal.setAttribute("class", "delete-modal");
             deleteModal.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
             let tokenAdmin = sessionStorage.getItem("token");
-            deleteModal.onclick = function (e) {
-                e.preventDefault();
-                fetch(`http://localhost:5678/api/works/${projet.id}`, {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${tokenAdmin}`
-                    }
-                })
-                console.log("token", sessionStorage.token);
-                console.log("token", tokenAdmin);
-                console.log("ID projet", projet.id);
-                console.log(window.sessionStorage.token);
-
-            }
 
             moveModal = document.createElement('i');
             moveModal.innerHTML = `<i class="fa-solid fa-arrows-up-down-left-right"></i>`;
@@ -119,7 +99,7 @@ function firstModal() {
 
             modalBody.appendChild(modalForm);
             modalForm.appendChild(imgModal);
-            modalForm.appendChild(editerModal);
+            modalForm.appendChild(editModal);
             modalForm.appendChild(moveModal);
             modalForm.appendChild(deleteModal);
 
@@ -150,16 +130,46 @@ function firstModal() {
             moveModal.style.color = "white";
             moveModal.style.background = "black";
             moveModal.style.border = "4px solid black";
-        });
 
-    }
+            deleteModal.onclick = function (e) {
+                fetch(`http://localhost:5678/api/works/${projet.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${tokenAdmin}`
+                    }
+                }).then(response => {
+                        if (response.ok) {
+                            modalForm = e.target.closest('post');
+                            modalForm.parentNode.removeChild(modalForm);
+                            console.log("c'est delete bg");
+
+                            const galleryProject = document.getElementById(`${projet.id}`);
+                            galleryProject.remove();
+                            console.log(galleryProject);
+
+                        }
+                    }
+                )
+            }
+
+        }
+    );
+
+
+}
+
+function firstModal() {
+    refreshModalButtons();
+    createModal();
+    console.log("MODAL QUI DOIT OPEN");
+
 
 }
 
 function secondModal() {
 
     let backArrow = document.getElementById("back");
-    ajouterPhoto.addEventListener("click", function (projet) {
+    ajouterPhoto.addEventListener("click", function () {
 
         let modalImgInput;
         let modal2Body;
@@ -188,7 +198,7 @@ function secondModal() {
         modalImgInput.setAttribute("type", "file");
         modalImgInput.setAttribute("id", "test");
         modalImgInput.style.display = "none";
-        modalImgInput.onchange = evt => {
+        modalImgInput.onchange = () => {
             const [file] = modalImgInput.files;
             if (file) {
                 modalImgEmpty.style.display = "none";
@@ -235,38 +245,38 @@ function secondModal() {
         imgTitleInput.appendChild(imgTitleLabel)
         imgTitleInput.appendChild(imgTitle);
 
-        let imgCategorieInput;
-        let imgCategorieLabel
-        let imgCategorie;
-        let imgCategorieList;
+        let imgCategoriesInput;
+        let imgCategoriesLabel
+        let imgCategories;
+        let imgCategoriesList;
 
 
-        imgCategorieInput = document.createElement("div");
-        imgCategorieInput.setAttribute("id", "image-categorie");
+        imgCategoriesInput = document.createElement("div");
+        imgCategoriesInput.setAttribute("id", "image-categorie");
 
 
-        imgCategorieLabel = document.createElement("label");
-        imgCategorieLabel.setAttribute("for", "categorie");
-        imgCategorieLabel.innerText = "Catégorie"
+        imgCategoriesLabel = document.createElement("label");
+        imgCategoriesLabel.setAttribute("for", "categorie");
+        imgCategoriesLabel.innerText = "Catégorie"
 
-        imgCategorie = document.createElement("select");
-        imgCategorie.setAttribute("id", "testCate");
+        imgCategories = document.createElement("select");
+        imgCategories.setAttribute("id", "testCate");
 
 
-        imgCategorie.setAttribute("name", "categorie");
-        createDefaultOption(imgCategorie);
-        categorieResponse.forEach((categorie) => {
+        imgCategories.setAttribute("name", "categorie");
+        createDefaultOption(imgCategories);
+        categoriesResponse.forEach((categorie) => {
             console.log("categorie", categorie);
-            imgCategorieList = document.createElement("option");
-            imgCategorieList.setAttribute("class", "test-cate");
-            imgCategorieList.setAttribute("value", `${categorie.id}`);
-            imgCategorieList.setAttribute("id", `${categorie.id}`);
-            imgCategorieList.innerHTML = `${categorie.name}`
-            imgCategorie.appendChild(imgCategorieList);
+            imgCategoriesList = document.createElement("option");
+            imgCategoriesList.setAttribute("class", "test-cate");
+            imgCategoriesList.setAttribute("value", `${categorie.id}`);
+            imgCategoriesList.setAttribute("id", `${categorie.id}`);
+            imgCategoriesList.innerHTML = `${categorie.name}`
+            imgCategories.appendChild(imgCategoriesList);
         })
 
-        imgCategorieInput.appendChild(imgCategorieLabel)
-        imgCategorieInput.appendChild(imgCategorie);
+        imgCategoriesInput.appendChild(imgCategoriesLabel)
+        imgCategoriesInput.appendChild(imgCategories);
 
 
         modal.style.display = "none";
@@ -274,23 +284,17 @@ function secondModal() {
 
         modal2Body.appendChild(imgInputForm);
         modal2Body.appendChild(imgTitleInput);
-        modal2Body.appendChild(imgCategorieInput);
+        modal2Body.appendChild(imgCategoriesInput);
 
-        let modalImgValiderButton = document.createElement("button");
-        modalImgValiderButton.setAttribute("id", "valider-button")
-        modalImgValiderButton.innerText = "Valider";
-   
+        let modalImgValidButton = document.createElement("button");
+        modalImgValidButton.setAttribute("id", "valider-button")
+        modalImgValidButton.innerText = "Valider";
 
-        modalImgValiderButton.addEventListener("click", function (event) {
-            event.preventDefault();
+        modal2Footer.appendChild(modalImgValidButton)
 
+        modalImgValidButton.addEventListener("click", function () {
             newWork();
         })
-
-        modal2Footer.appendChild(modalImgValiderButton)
-
-
-
 
 
     })
@@ -300,16 +304,15 @@ function secondModal() {
     };
 
 
-
 }
 
-function createDefaultOption(imgCategorie) {
-    const imgCategorieList = document.createElement("option");
-    imgCategorieList.innerHTML = `Séléctionner une catégorie`
-    imgCategorie.appendChild(imgCategorieList);
+function createDefaultOption(imgCategories) {
+    const imgCategoriesList = document.createElement("option");
+    imgCategoriesList.innerHTML = `Selectionner une catégorie`
+    imgCategories.appendChild(imgCategoriesList);
 }
 
-function newWork(e) { 
+function newWork() {
     let tok = sessionStorage.getItem("token");
 
     let testTitle = document.getElementById("titre-img").value;
@@ -319,7 +322,7 @@ function newWork(e) {
     console.log("title", testTitle);
     console.log("cate", testCategory);
     console.log("img", testImg);
-    
+
     const formData = new FormData();
     formData.append("image", testImg);
     formData.append("title", testTitle);
@@ -335,5 +338,18 @@ function newWork(e) {
         },
         body: formData
 
+
+    }).then(response => {
+        if (response.ok) {
+            modal2.style.display = "none";
+            response.json().then(newProject => {
+                console.log("newProject", newProject);
+                displayProjects(newProject, true);
+            })
+        }
+
+
     })
+
 }
+

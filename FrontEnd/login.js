@@ -3,6 +3,7 @@ const connectButton = document.querySelector("#connect");
 const emailInput = document.querySelector("#username");
 const passwordInput = document.querySelector("#password");
 const errorMessage = document.querySelector("#error-message");
+
 connectButton.addEventListener("click", async (event) => {
   event.preventDefault();
 

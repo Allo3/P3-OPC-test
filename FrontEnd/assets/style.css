@@ -363,6 +363,10 @@ footer nav ul {
 	margin: 2em
 }
 
+footer nav li {
+	cursor: pointer;
+}
+
 
 
 
