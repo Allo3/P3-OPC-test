@@ -25,13 +25,7 @@ hotelRestaurantButton.addEventListener("click", () => {
     displayProjects(response.filter((projet) => projet.categoryId === 3));
 })
 
-export function removeProjectFromGallery(projectId) {
-    const projectElement = document.getElementById(`#Post - ${projectId}`);
-    if (projectElement) {
-        projectElement.remove();
-    }
-    console.log("SUPP DE LA GALLERIE AUSSI");
-}
+
 
 export function displayProjects(response, update = false) {
     console.log('response function', response)
@@ -58,8 +52,8 @@ function createElement(project) {
     figureProjet = document.createElement("figure");
     postProjet.setAttribute("id", `${project.id}`);
     imgProjet = document.createElement("img");
-    imgProjet.width = "150";
-    imgProjet.height = "519";
+    imgProjet.width = 150;
+    imgProjet.height = 519;
     imgProjet.style.objectFit = "cover"
     imgProjet.src = project.imageUrl;
     figCaptionProjet = document.createElement("figcaption");
@@ -138,7 +132,7 @@ if (sessionStorage.userId && sessionStorage.token !== null) {
     logout();
 
 }
-;
+
 
 
 

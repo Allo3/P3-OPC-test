@@ -79,10 +79,10 @@ nav a {
 .input {
     appearance: none;
     display: block;
-    width: 100%;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    width: 90%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
     background-color: white;
-    border: 0px solid white;
+    border: 0 solid white;
     padding: 1rem;
     border-radius: 0.25rem;
     margin-bottom: 30px;
