@@ -616,3 +616,8 @@ footer nav li {
     text-align: center;
     margin-top: 15px;
 }
+
+.disabled {
+    background: #A7A7A7 !important;
+    color: white !important;
+}

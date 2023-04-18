@@ -1,24 +1,34 @@
 import {modalClose, modalCloseOutside, modalOpen} from "./modal.js";
-// Récupération des Posts via l'API
-const response = await fetch("http://localhost:5678/api/works").then(response => response.json()).then(data => Object.values(data));
+import {getAllProject} from "./services/works-service.js";
 
+// Récupération des Posts via l'API
+const response = await getAllProject();
+console.log('response', response);
+// Stockage de la galerie dans une variable
 let divGallery = document.querySelector("#gallery");
 
+// Comportement du filtre Tous
 const allButton = document.getElementById('all');
 allButton.addEventListener("click", () => {
     removeProjects();
     displayProjects(response);
 })
+
+// Comportement du filtre Objets
 const objetsButton = document.getElementById('objets');
 objetsButton.addEventListener("click", () => {
     removeProjects();
     displayProjects(response.filter((projet) => projet.categoryId === 1));
 })
+
+// Comportement du filtre Appartements
 const apartButton = document.getElementById('appart');
 apartButton.addEventListener("click", () => {
     removeProjects();
     displayProjects(response.filter((projet) => projet.categoryId === 2));
 })
+
+// Comportement du filtre Hôtels et Restaurants
 const hotelRestaurantButton = document.getElementById('hotel-resto');
 hotelRestaurantButton.addEventListener("click", () => {
     removeProjects();
@@ -26,9 +36,9 @@ hotelRestaurantButton.addEventListener("click", () => {
 })
 
 
-
+// Affichage des projets
 export function displayProjects(response, update = false) {
-    console.log('response function', response)
+    console.log('response projets', response)
     if(!update){
         response.forEach((projet) => {
             createElement(projet)
@@ -36,11 +46,9 @@ export function displayProjects(response, update = false) {
     }else{
         createElement(response)
     }
-
-
-
 }
 
+// Création des <post> projets
 function createElement(project) {
     let postProjet;
     let figureProjet;
@@ -65,6 +73,8 @@ function createElement(project) {
     divGallery.appendChild(postProjet);
 }
 
+
+// Fonction de suppression de projets pour filtres
 export function removeProjects() {
 
     const list = document.getElementById("gallery");
@@ -75,8 +85,10 @@ export function removeProjects() {
 
 displayProjects(response);
 
+
+// Comportement du bouton Logout
 function logout() {
-    console.log("token", sessionStorage.token);
+    console.log("Admin connecté");
     const logoutButton = document.getElementById("login");
     logoutButton.addEventListener("click", (event) => {
         event.preventDefault();
@@ -123,7 +135,6 @@ if (sessionStorage.userId && sessionStorage.token !== null) {
 
     const modalButton = document.getElementById("modifier2");
     modalButton.onclick = function () {
-        console.log("TEST");
         modalOpen();
         modalClose();
         modalCloseOutside();
